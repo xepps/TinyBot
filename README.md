@@ -19,6 +19,6 @@ This will be changed in the next update.
 What's next
 -----------
 
-- [ ] Inputs and outputs specified from command line
-- [ ] Different output data structure
-- [ ] More 'stuff'
+- Inputs and outputs specified from command line
+- Different output data structure
+- More 'stuff'
