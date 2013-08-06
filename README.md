@@ -1,9 +1,8 @@
-============
 TinyBot v0.1
 ============
 
 Summary
-=======
+-------
 
 TinyBot is a tiny web crawler that checks the cohesiveness of your website.
 
@@ -18,8 +17,8 @@ Currently, the website and output have to be specified in the main java class.
 This will be changed in the next update.
 
 What's next
-===========
+-----------
 
-- Inputs and outputs specified from command line
-- Different output data structure
-- More 'stuff'
+- [ ] Inputs and outputs specified from command line
+- [ ] Different output data structure
+- [ ] More 'stuff'
