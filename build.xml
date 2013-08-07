@@ -7,8 +7,10 @@
 	<property name="lib.dir"	 value="lib" />
 	<property name="script.dir"  value="etc" />
 	<property name="javadoc.dir" value="javadoc" />
+	<property name="output.dir"  value="output" />
 	
-	<property name="testing.dir" value="testing" />
+	<property name="input.site"	 value="http://performancecarblog.co.uk" />
+	<property name="output.file" value="${output.dir}/output" />
 	
 	<property name="main-class"	 value="com.xepps.tinyBot.Crawler" />
 	
@@ -33,6 +35,7 @@
 	
 	<target name="clean">
 		<delete dir="${build.dir}" />
+		<delete dir="${output.dir}" />
 	</target>
 		
     <target name="compile">
@@ -69,6 +72,7 @@
                 <path refid="classpath"/>
                 <path location="${jar.dir}/${ant.project.name}.jar"/>
             </classpath>
+        	<arg line="-input ${input.site} -output ${output.file}" />
         </java>
     	
     </target>
