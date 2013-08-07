@@ -2,6 +2,7 @@ package com.xepps.tinyBot;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -52,9 +53,7 @@ public class Crawler
 	{		
 		String nextPage = this.queue.get(queueLocation);	
 		
-		if(nextPage.startsWith("/"))
-		    nextPage = SITE + nextPage;
-		else if(!nextPage.contains(ROOTURL))
+		if(!nextPage.contains(ROOTURL))
             return;
 		
 		System.out.println("On Page: " + nextPage);
@@ -62,7 +61,7 @@ public class Crawler
 		Document doc;
 		try
 		{
-		    doc = Jsoup.connect(nextPage).get();
+		    doc = Jsoup.parse(new URL(nextPage).openStream(), "UTF-8", nextPage);
 		    Elements links = doc.getElementsByTag("a");
 		
 		    for(Element link : links)
@@ -76,16 +75,30 @@ public class Crawler
 
 	private void addToQueue(Element link)
 	{
-		if(!pages.containsKey(link.attr("href")))
-		{
-			pages.put(link.attr("href"), 1);
-			queue.add(link.attr("href"));
+	    String url = link.attr("href");
+        
+        if(url.startsWith("/") || url.startsWith("#") || url.startsWith("?"))
+            url = SITE + url;
+        
+        if(url.contains("?"))
+            url = url.substring(0, (url.indexOf("?")-1));
+        
+        if(url.contains("#"))
+            url = url.substring(0, (url.indexOf("#")-1));
+        
+        if(url.endsWith("/"))
+            url = url.substring(0, (url.length() - 1));
+        
+		if(!pages.containsKey(url))
+		{		    
+			pages.put(url, 1);
+			queue.add(url);
 		}
 		else
 		{
-			Integer hits = pages.get(link.attr("href"));
-			pages.remove(link.attr("href"));
-			pages.put(link.attr("href"), (hits += 1));
+			Integer hits = pages.get(url);
+			pages.remove(url);
+			pages.put(url, (hits += 1));
 		}
 	}
 	
