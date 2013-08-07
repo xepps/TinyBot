@@ -19,7 +19,7 @@ import com.xepps.tinyBot.util.XParser;
 
 public class Crawler
 {
-	private static String SITE; 
+	private static String ROOTURL;
 	
 	ArrayList<String> queue;
 	HashMap<String, Integer> pages;
@@ -27,20 +27,27 @@ public class Crawler
 	
 	public Crawler(String input)
 	{
-	    SITE = input;
+	    ROOTURL = input;   
+	    
+	    if(ROOTURL.startsWith("http://"))
+	        ROOTURL = input.substring(7);
+	    
+	    if(ROOTURL.startsWith("www."))
+	        ROOTURL.substring(4);
+	    
 		queueLocation = 0;
 		queue = new ArrayList<String>();
 		pages = new HashMap<String, Integer>();
 		
-		queue.add(SITE);
-		pages.put(SITE, 1);
+		queue.add(input);
+		pages.put(input, 1);
 	}
 	
 	private void retrievePage()
 	{
 		System.out.println("On Page: " + this.queue.get(queueLocation));
 		
-		if(!this.queue.get(queueLocation).startsWith(SITE))
+		if(!this.queue.get(queueLocation).contains(ROOTURL))
 			return;
 		
 		Document doc;
