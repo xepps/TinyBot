@@ -20,6 +20,7 @@ import com.xepps.tinyBot.util.XParser;
 public class Crawler
 {
 	private static String ROOTURL;
+	private static String SITE;
 	
 	ArrayList<String> queue;
 	HashMap<String, Integer> pages;
@@ -27,13 +28,17 @@ public class Crawler
 	
 	public Crawler(String input)
 	{
-	    ROOTURL = input;   
+	    ROOTURL = input;
+	    SITE = input;
 	    
 	    if(ROOTURL.startsWith("http://"))
 	        ROOTURL = input.substring(7);
 	    
 	    if(ROOTURL.startsWith("www."))
-	        ROOTURL.substring(4);
+	        ROOTURL = ROOTURL.substring(4);
+	    
+	    if(SITE.endsWith("/"))
+	        SITE = SITE.substring(0, (SITE.length() - 1));
 	    
 		queueLocation = 0;
 		queue = new ArrayList<String>();
@@ -47,8 +52,13 @@ public class Crawler
 	{
 		System.out.println("On Page: " + this.queue.get(queueLocation));
 		
-		if(!this.queue.get(queueLocation).contains(ROOTURL))
-			return;
+		String nextPage = this.queue.get(queueLocation);
+		
+		
+		if(nextPage.startsWith("/"))
+		    nextPage = SITE + nextPage;
+		else if(!nextPage.contains(ROOTURL))
+            return;
 		
 		Document doc;
 		try
@@ -59,7 +69,7 @@ public class Crawler
 		    for(Element link : links)
 		        addToQueue(link);
 		}
-		catch(IOException e)
+		catch(Exception e)
 		{
 		    System.out.println("\t- Was not a valid web page");
 		}
