@@ -76,18 +76,23 @@ public class Crawler
 	private void addToQueue(Element link)
 	{
 	    String url = link.attr("href");
+        System.out.print("Adding: " + url);
         
         if(url.startsWith("/") || url.startsWith("#") || url.startsWith("?"))
             url = SITE + url;
         
         if(url.contains("?"))
-            url = url.substring(0, (url.indexOf("?")-1));
+            url = url.substring(0, url.indexOf("?"));
         
         if(url.contains("#"))
-            url = url.substring(0, (url.indexOf("#")-1));
+            url = url.substring(0, url.indexOf("#"));
         
         if(url.endsWith("/"))
+        {
             url = url.substring(0, (url.length() - 1));
+        }
+        
+        System.out.println(" | " + url);
         
 		if(!pages.containsKey(url))
 		{		    
