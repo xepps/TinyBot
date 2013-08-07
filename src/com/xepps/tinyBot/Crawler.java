@@ -76,7 +76,6 @@ public class Crawler
 	private void addToQueue(Element link)
 	{
 	    String url = link.attr("href");
-        System.out.print("Adding: " + url);
         
         if(url.startsWith("/") || url.startsWith("#") || url.startsWith("?"))
             url = SITE + url;
@@ -88,11 +87,7 @@ public class Crawler
             url = url.substring(0, url.indexOf("#"));
         
         if(url.endsWith("/"))
-        {
             url = url.substring(0, (url.length() - 1));
-        }
-        
-        System.out.println(" | " + url);
         
 		if(!pages.containsKey(url))
 		{		    

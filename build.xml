@@ -9,7 +9,7 @@
 	<property name="javadoc.dir" value="javadoc" />
 	<property name="output.dir"  value="output" />
 	
-	<property name="input.site"	 value="http://performancecarblog.co.uk" />
+	<property name="input.site"	 value="http://www.jollymagic.com" />
 	<property name="output.file" value="${output.dir}/output" />
 	
 	<property name="main-class"	 value="com.xepps.tinyBot.Crawler" />
