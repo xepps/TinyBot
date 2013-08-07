@@ -67,6 +67,8 @@
 	
     <target name="run" depends="main">
     	
+    	<mkdir dir="${output.dir}" />
+    	
         <java fork="true" classname="${main-class}">
             <classpath>
                 <path refid="classpath"/>
