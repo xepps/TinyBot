@@ -49,21 +49,20 @@ public class Crawler
 	}
 	
 	private void retrievePage()
-	{
-		System.out.println("On Page: " + this.queue.get(queueLocation));
-		
-		String nextPage = this.queue.get(queueLocation);
-		
+	{		
+		String nextPage = this.queue.get(queueLocation);	
 		
 		if(nextPage.startsWith("/"))
 		    nextPage = SITE + nextPage;
 		else if(!nextPage.contains(ROOTURL))
             return;
 		
+		System.out.println("On Page: " + nextPage);
+		
 		Document doc;
 		try
 		{
-		    doc = Jsoup.connect(this.queue.get(queueLocation)).get();
+		    doc = Jsoup.connect(nextPage).get();
 		    Elements links = doc.getElementsByTag("a");
 		
 		    for(Element link : links)
