@@ -3,12 +3,10 @@ package com.xepps.tinyBot;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -123,15 +121,24 @@ public class Crawler
             return;
         }
 
-        if (!cmdline.hasOption(INPUT) || !cmdline.hasOption(OUTPUT))
+        if (!cmdline.hasOption(INPUT))
         {
-            System.out.println("args: " + Arrays.toString(args));
-            
+            System.err.println("A website must be specified using:");
+            System.err.println("\t -input http://yoursitehere.com");
             return;
         }
 
         String inputPath = cmdline.getOptionValue(INPUT);
         String outputPath = cmdline.getOptionValue(OUTPUT);
+        
+        if(outputPath.isEmpty())
+            outputPath = "output";
+        
+        if(!outputPath.endsWith(".csv"))
+            outputPath += ".csv";
+        
+        if(!inputPath.startsWith("http://"))
+            inputPath = "http://" + inputPath;
 	    
 		Crawler crawler = new Crawler(inputPath);
 		crawler.crawl();
@@ -139,7 +146,7 @@ public class Crawler
 		HashMap<String, Integer> pages = crawler.getHits();
 		ArrayList<String> urls = crawler.getCrawledPages();
 		
-		PrintWriter out = new PrintWriter(outputPath + ".csv", "UTF-8");
+		PrintWriter out = new PrintWriter(outputPath, "UTF-8");
 		out.println("PAGE , \t HITS");
 		for(String url : urls)
 			out.println(url + " , \t " + pages.get(url));
